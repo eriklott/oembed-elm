@@ -1,14 +1,14 @@
 module OEmbed
     exposing
         ( Response(..)
-        , VimeoResponse
-        , YouTubeResponse
+        , VimeoVideo
+        , YouTubeVideo
         , get
         )
 
 {-| OEmbed client library for various providers
 
-@docs Response, VimeoResponse, YouTubeResponse, get
+@docs Response, VimeoVideo, YouTubeVideo, get
 
 -}
 
@@ -21,8 +21,8 @@ import Task exposing (Task)
 {-| OEmbed provider responses
 -}
 type Response
-    = YouTube YouTubeResponse
-    | Vimeo VimeoResponse
+    = YouTube YouTubeVideo
+    | Vimeo VimeoVideo
 
 
 {-| Create a task that gets OEmbed data for a specified url. The OEmbed
@@ -40,7 +40,7 @@ get url =
 
 {-| Vimeo OEmbed response
 -}
-type alias VimeoResponse =
+type alias VimeoVideo =
     { type_ : String
     , version : String
     , title : String
@@ -65,7 +65,7 @@ type alias VimeoResponse =
 
 {-| YouTube OEmbed response
 -}
-type alias YouTubeResponse =
+type alias YouTubeVideo =
     { title : String
     , html : String
     , version : String
@@ -101,9 +101,9 @@ providerDecoder providerName =
             Json.fail ("Unsupported oembed provider: " ++ providerName)
 
 
-vimeoDecoder : Json.Decoder VimeoResponse
+vimeoDecoder : Json.Decoder VimeoVideo
 vimeoDecoder =
-    Json.succeed VimeoResponse
+    Json.succeed VimeoVideo
         |: (Json.field "type" Json.string)
         |: (Json.field "version" Json.string)
         |: (Json.field "title" Json.string)
@@ -125,9 +125,9 @@ vimeoDecoder =
         |: (Json.field "thumbnail_height" Json.int)
 
 
-youTubeDecoder : Json.Decoder YouTubeResponse
+youTubeDecoder : Json.Decoder YouTubeVideo
 youTubeDecoder =
-    Json.succeed YouTubeResponse
+    Json.succeed YouTubeVideo
         |: (Json.field "title" Json.string)
         |: (Json.field "html" Json.string)
         |: (Json.field "version" Json.string)
