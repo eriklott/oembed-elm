@@ -25,19 +25,6 @@ type Response
     | VimeoVideoResponse VimeoVideo
 
 
-{-| Create a task that gets OEmbed data for a specified url. The OEmbed
-provider will be automatically determined based on the url.
--}
-get : String -> Task Http.Error Response
-get url =
-    let
-        noembedURL =
-            "http://noembed.com/embed?url=" ++ Http.encodeUri (url)
-    in
-        Http.get noembedURL responseDecoder
-            |> Http.toTask
-
-
 {-| Vimeo OEmbed response
 -}
 type alias VimeoVideo =
@@ -80,6 +67,19 @@ type alias YouTubeVideo =
     , thumbnailWidth : Int
     , thumbnailHeight : Int
     }
+
+
+{-| Create a task that gets OEmbed data for a specified url. The OEmbed
+provider will be automatically determined based on the url.
+-}
+get : String -> Task Http.Error Response
+get url =
+    let
+        noembedURL =
+            "http://noembed.com/embed?url=" ++ Http.encodeUri (url)
+    in
+        Http.get noembedURL responseDecoder
+            |> Http.toTask
 
 
 responseDecoder : Json.Decoder Response
