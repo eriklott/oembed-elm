@@ -76,7 +76,7 @@ get : String -> Task Http.Error Response
 get url =
     let
         noembedURL =
-            "http://noembed.com/embed?url=" ++ Http.encodeUri (url)
+            "https://noembed.com/embed?url=" ++ Http.encodeUri (url)
     in
         Http.get noembedURL responseDecoder
             |> Http.toTask
